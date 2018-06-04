@@ -7,7 +7,8 @@ new Vue({
         player2Stats: {
             health: 100
         },
-        currentPlayerIsPlayer1: true
+        currentPlayerIsPlayer1: true,
+        actionLog: []
     },
     methods: {
         startNewGame: function () {
@@ -22,6 +23,13 @@ new Vue({
             } else {
                 this.player1Stats.health -= attackImpact;
             }
+
+            this.actionLog.push({
+                source: this.currentPlayerIsPlayer1 === true ? 'PLAYER' : 'MONSTER',
+                target: this.currentPlayerIsPlayer1 === false ? 'PLAYER' : 'MONSTER',
+                action: 'ATTACKS',
+                impact: attackImpact
+            });
         }
     }
 });
