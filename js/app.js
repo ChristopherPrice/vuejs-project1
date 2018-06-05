@@ -24,10 +24,18 @@ new Vue({
             this.turnLock = true;
             this.takeTurn(action, true);
             
-            setTimeout(() => {
-                vm.player2Turn();
-                vm.turnLock = false;
-            }, 2000);
+            if (this.isEndOfGame()) {
+                this.handleEndOfGame();
+            } else {
+                setTimeout(() => {
+                    vm.player2Turn();
+                    vm.turnLock = false;
+
+                    if (this.isEndOfGame()) {
+                        this.handleEndOfGame();
+                    }
+                }, 1000);
+            }
         },
         player2Turn: function () {
             var actions = Object.keys(this.actions),
@@ -52,6 +60,10 @@ new Vue({
                 default:
                     console.warn('No action provided');
                     break;
+            }
+
+            if (this.isEndOfGame()) {
+                this.handleEndOfGame();
             }
         },
         attack: function (currentTurnIsPlayer1) {
@@ -106,6 +118,18 @@ new Vue({
                 action: action,
                 impact: impact
             });
+        },
+        isEndOfGame: function () {
+            return (this.player1Health === 0 || this.player2Health === 0);
+        },
+        handleEndOfGame: function () {
+            if (this.player1Health === 0) {
+                alert('You lose!');
+            } else {
+                alert('You win!');
+            }
+
+            this.startNewGame();
         }
     }
 });
