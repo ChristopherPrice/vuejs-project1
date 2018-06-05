@@ -12,16 +12,16 @@
         <div class="small-6 columns" id="player1-column">
             <h1 class="text-center">YOU</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{'width': player1Stats.health + '%'}">
-
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{'width': player1Health + '%'}">
+                    {{ player1Health }}
                 </div>
             </div>
         </div>
         <div class="small-6 columns" id="player2-column">
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{'width': player2Stats.health + '%'}">
-
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{'width': player2Health + '%'}">
+                    {{ player2Health }}
                 </div>
             </div>
         </div>
@@ -33,16 +33,16 @@
     </section>
     <section class="row controls">
         <div class="small-12 columns">
-            <button id="attack" @click="attack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="attack" @click="player1Turn(actions.ATTACK)" :disabled="turnLock == true">ATTACK</button>
+            <button id="special-attack" @click="player1Turn(actions.SPECIAL_ATTACK)" :disabled="turnLock == true">SPECIAL ATTACK</button>
+            <button id="heal" @click="player1Turn(actions.HEAL)" :disabled="turnLock == true">HEAL</button>
+            <button id="give-up" @click="player1Turn(actions.GIVE_UP)" :disabled="turnLock == true">GIVE UP</button>
         </div>
     </section>
     <section class="row log">
         <div class="small-12 columns">
             <ul>
-                <li v-for="action in actionLog">
+                <li v-for="action in actionLog" :class="action.class">
                     {{ action.source }} {{ action.action }} {{ action.target }} FOR {{ action.impact }}
                 </li>
             </ul>
